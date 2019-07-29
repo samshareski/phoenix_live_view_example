@@ -8,6 +8,7 @@ defmodule Demo.Application do
       Demo.Repo,
       DemoWeb.Endpoint,
       Demo.GlobalPixelGrid,
+      Demo.ConnectionsRegistry,
       DemoWeb.Presence
     ]
 
