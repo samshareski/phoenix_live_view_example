@@ -1,0 +1,13 @@
+.grid {
+  display: grid;
+  margin: auto;
+  height: 400px;
+  width: 400px;
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  place-items: stretch;
+}
+
+.pixel {
+  border: 1px solid red;
+}

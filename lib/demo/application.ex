@@ -7,6 +7,7 @@ defmodule Demo.Application do
     children = [
       Demo.Repo,
       DemoWeb.Endpoint,
+      Demo.GlobalPixelGrid,
       DemoWeb.Presence
     ]
 
