@@ -4,16 +4,11 @@ defmodule DemoWeb.CounterLive do
   def render(assigns) do
     ~L"""
     <div>
-      <h1 phx-click="boom">The count is: <%= @val %></h1>
+      <h1>The count is: <%= @val %></h1>
       <button phx-click="boom" class="alert-danger">BOOM</button>
       <button phx-click="dec">-</button>
       <button phx-click="inc">+</button>
     </div>
-    <%= if @val < 5 do %>
-      <%= live_render(@socket, DemoWeb.ClockLive) %>
-    <% else %>
-      <%= live_render(@socket, DemoWeb.ImageLive) %>
-    <% end %>
     """
   end
 
