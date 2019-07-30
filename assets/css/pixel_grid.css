@@ -11,3 +11,19 @@
 .pixel {
   border: 1px solid red;
 }
+
+.palette {
+  display: flex;
+  height: 40px;
+  justify-content: center;
+}
+
+.colour {
+  width: 40px;
+  border: 1px solid grey;
+  margin: 3px;
+}
+
+.active {
+  box-shadow: 5px 5px grey;
+}

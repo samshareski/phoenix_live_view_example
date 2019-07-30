@@ -25,16 +25,16 @@ defmodule Demo.GlobalPixelGrid do
     Endpoint.unsubscribe(@topic)
   end
 
-  def paint_pixel(i) do
-    GenServer.cast(__MODULE__, {:paint_pixel, i})
+  def paint_pixel(i, colour) do
+    GenServer.cast(__MODULE__, {:paint_pixel, i, colour})
   end
 
   def handle_call(:get_grid, _from, state) do
     {:reply, state, state}
   end
 
-  def handle_cast({:paint_pixel, i}, state) do
-    new_state = List.replace_at(state, i, "black")
+  def handle_cast({:paint_pixel, i, colour}, state) do
+    new_state = List.replace_at(state, i, colour)
     Endpoint.broadcast(@topic, "new_grid", %{grid: new_state})
     {:noreply, new_state}
   end

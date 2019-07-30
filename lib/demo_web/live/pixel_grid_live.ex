@@ -2,6 +2,7 @@ defmodule DemoWeb.PixelGridLive do
   use Phoenix.LiveView
 
   @topic "pixel grid"
+  @palette ~w(white black red orange yellow green blue indigo violet)
 
   alias Demo.GlobalPixelGrid
 
@@ -16,10 +17,24 @@ defmodule DemoWeb.PixelGridLive do
         </div>
       <% end %>
     </div>
+    <div class="palette">
+      <%= for colour <- @palette do %>
+        <div phx-click="change brush"
+             phx-value="<%= colour %>"
+             class="colour <%= get_active_class(@brush, colour) %>"
+             style="background-color: <%= colour %>">
+        </div>
+      <% end %>
+    </div>
     """
   end
 
   def mount(_session, socket) do
+    socket =
+      socket
+      |> assign(brush: "black")
+      |> assign(palette: @palette)
+
     if connected?(socket) do
       initial_grid = GlobalPixelGrid.register()
       {:ok, put_grid(socket, initial_grid)}
@@ -32,9 +47,13 @@ defmodule DemoWeb.PixelGridLive do
     GlobalPixelGrid.unregister()
   end
 
-  def handle_event("paint", i, socket) do
-    GlobalPixelGrid.paint_pixel(String.to_integer(i))
+  def handle_event("paint", i, %{assigns: %{brush: colour}} = socket) do
+    GlobalPixelGrid.paint_pixel(String.to_integer(i), colour)
     {:noreply, socket}
+  end
+
+  def handle_event("change brush", colour, socket) do
+    {:noreply, put_brush(socket, colour)}
   end
 
   def handle_info(%{topic: @topic, payload: %{grid: grid}}, socket) do
@@ -48,5 +67,17 @@ defmodule DemoWeb.PixelGridLive do
 
   defp put_grid(socket, grid) do
     assign(socket, grid: grid)
+  end
+
+  defp put_brush(socket, colour) do
+    assign(socket, brush: colour)
+  end
+
+  defp get_active_class(active_colour, colour) do
+    if active_colour == colour do
+      "active"
+    else
+      ""
+    end
   end
 end
